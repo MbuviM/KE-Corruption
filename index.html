@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Explainer</title>
+</head>
+<body>
+    <h1>The Explainer</h1>
+    <form action="/get_answer" method="post">
+        <label for="user_input">Enter your question:</label>
+        <input type="text" id="user_input" name="user_input">
+        <button type="submit">Get Answer</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userInput = document.querySelector('#user_input').value;
+            const response = await fetch('/get_answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `user_input=${encodeURIComponent(userInput)}`
+            });
+            const result = await response.json();
+            document.querySelector('#response').innerText = result;
+        });
+    </script>
+</body>
+</html>
